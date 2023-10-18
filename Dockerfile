@@ -1,16 +1,17 @@
-FROM python:3.9-alpine
+FROM python:3.11.5-alpine3.18
 
 LABEL description="OPA Alfred"
 LABEL github="https://github.com/dolevf/Open-Policy-Agent-Alfred"
 LABEL maintainers="Dolev Farhi"
 
 ARG TARGET_FOLDER=/app
+ARG TARGETARCH
 
 WORKDIR $TARGET_FOLDER/
 
 RUN mkdir /app/bin
 RUN apk add --update curl
-RUN curl -L -o bin/opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+RUN curl -L -o bin/opa https://github.com/open-policy-agent/opa/releases/download/v0.57.0/opa_linux_${TARGETARCH}_static
 RUN chmod u+x bin/opa
 
 COPY requirements.txt /app
